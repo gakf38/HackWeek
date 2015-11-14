@@ -10,6 +10,9 @@ app.get('/', function(req, res){
 
 	res.cookie('rememberme', '1', { expires: new Date(Date.now() + 900000), httpOnly: true });
 	console.log("Cookies: ", req.cookies);
+
+	console.dir(req.cookies);
+
 });
 
 io.on('connection', function(socket){
