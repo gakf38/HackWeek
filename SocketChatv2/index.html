@@ -38,7 +38,6 @@
 
 		#messages{
 			list-style-type none; 
-			list-style: none;
 			margin: 0; 
 			padding: 0; 
 		}
@@ -50,6 +49,7 @@
 			margin: auto;
 			font-size: 15px;
 			text-align: center;
+			word-wrap: break-word;
 		}
 
 		#messages li:nth-child(odd) {
@@ -60,14 +60,16 @@
 </head>
 <body>
 
-	<ul id='messages' class="accordian">
+	<ol id='messages' class="accordian">
 
-	</ul>
+	</ol>
+
+	<button onclick="re_order()">Re-order</button>
 
 	<form action=''>
-		<input id='m' autocomplete='off' onkeyup="test(this)" placeholder="140 characters remaining"/>
+		<input id='m' autocomplete='off' maxlength=140 placeholder="140 characters remaining"/>
 		</input>
-		<button onclick="test2()">Send</button>
+		<button>Send</button>
 	</form>
 
 	<script src='/socket.io/socket.io.js'></script>
@@ -88,28 +90,29 @@
 			if(msg === "/clear"){
 				$("#messages").empty();
 			}else{
-
-				var post = "post" + postNum;
-				$("#messages").append($('<li>').text(msg));
-				postNum++;
-				
+				$("#messages").prepend($('<li class="post" onclick="test()">').text(msg));
+				updatePosts();
 			}
 		});
 
-		function test(text){
-			var total = 140;
-			var totalLeft = 0; 
-
-			if(total - text.value.length > 0){
-				//keep allowing user input
-			}else{
-				document.getElementById("m").disabled = true;
+		function updatePosts(){
+			var id = 0; 
+			var posts = document.getElementsByClassName("post");
+			for(var i = 0; i < posts.length; i++){
+				posts[i].id = "post" + id;
+				id++;
 			}
 		}
 
-		function test2(){
-			console.log("in here");
-			document.getElementById("m").disabled = false;
+		function test(){
+			//nothing
+		}
+
+		function re_order(){
+			var posts = document.getElementsByClassName("post");
+			var temp = posts[1].innerHTML;
+			posts[1].innerHTML = posts[0].innerHTML;
+			posts[0].innerHTML = temp;
 		}
 
 	</script>
