@@ -58,22 +58,21 @@
 		</form>
 	</ul>
 
-
-	<button id="test">Add</button>
-
 	<script src='/socket.io/socket.io.js'></script>
 	<script src='http://code.jquery.com/jquery-1.11.1.js'></script>
 	<script>
 		var socket = io();
 		$('form').submit(function(){
 			socket.emit('chat message', $('#m').val());
+			
+			var post = new Object();
+			post.content = $("#m").val();
+			var jsonString = JSON.stringify(post);
+
+			socket.emit('addToDB', post);
+
 			$('#m').val('');
 			return false; 
-		});
-
-		$("#test").click(function(){
-			console.log("test");
-			socket.emit('addToDB', {"test":2});
 		});
 
 		socket.on('chat message', function(msg){
