@@ -35,6 +35,7 @@ io.on('connection', function(socket){
 				console.log(format("count = %s", count));
 			});
 		});
+
 		});
 	});
 });
