@@ -54,15 +54,16 @@
 </style>
 </head>
 <body>
+
 <form>
 	<div id="search">
 		<input id="searchBar" maxlength=120 type="text"/>
 		<button id="submitPost"> Post </button>
 	</div>
+</form>
 	<div id="feed">
 		<!-- insert -->
 	</div>
-</form>
 
 	<!--<ul id='messages'>
 		<form action=''>
@@ -98,7 +99,7 @@
 
 		socket.on('chat message', function(msg){
 			var str = msg;
-			$("#feed").prepend($('<div class="post"> <div class="postContent"> <p class="content">' + msg + '</p></div> <div class="voteButtons"> <button>Up</button> <button>Down</button></div></div>'));
+			$("#feed").prepend($('<div id="' + id + '" class="post"> <div class="postContent"> <p class="content">' + msg + '</p></div> <div class="voteButtons"> <button class="up" onclick="up(' + id + ')">Up</button> <button class="down" onclick="down(' + id + ')">Down</button></div></div>'));
 					});
 
 
@@ -108,10 +109,19 @@
 			var i = 0; 
 			for(i = index; i < posts.length; i++){
 				var str = posts[i].content;
-				$("#feed").prepend($('<div class="post"> <div class="postContent"> <p class="content">' + str + '</p></div> <div class="voteButtons"> <button>Up</button> <button>Down</button></div></div>'));
+				$("#feed").prepend($('<div id="' + posts[i].id + '" class="post"> <div class="postContent"> <p class="content">' + str + '</p></div> <div class="voteButtons"> <button class="up" onclick="up(' + posts[i].id + ')">Up</button> <button class="down" onclick="down(' + posts[i].id + ')">Down</button></div></div>'));
 			}
 
 		});
+
+		function up(id){
+			socket.emit('updateDBUP', id);
+		}
+
+		function down(id){
+			socket.emit('updateDBDOWN', id);
+		}
+
 	</script>
 </body>
 </html>
