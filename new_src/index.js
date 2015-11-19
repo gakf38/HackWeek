@@ -60,6 +60,32 @@ io.on('connection', function(socket){
 			});
 		});
 	});
+
+	socket.on('updateDBUP', function(id){
+		MongoClient.connect("mongodb://localhost:27017/test", function(err, db){
+			if(err)
+				throw err;
+			else
+				console.log("update");
+
+			var temp1, temp2, collection; 
+			collection = db.collection("posts");
+			temp1 = collection.find({"id":id});
+			temp2 = collection.find({"id":id++});
+			console.log(collection.find({"id":id}));
+
+		});
+	});
+
+	socket.on('updateDBDOWN', function(id){
+		MongoClient.connect("mongodb://localhost:27017/test", function(err, db){
+			if(err)
+				throw err;
+			else
+				console.log("test");
+		});
+	});
+
 });
 
 http.listen(3000, function(){
