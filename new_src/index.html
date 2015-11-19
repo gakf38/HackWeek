@@ -54,7 +54,7 @@
 </style>
 </head>
 <body>
-
+<form>
 	<div id="search">
 		<input id="searchBar" maxlength=120 type="text"/>
 		<button id="submitPost"> Post </button>
@@ -62,6 +62,7 @@
 	<div id="feed">
 		<!-- insert -->
 	</div>
+</form>
 
 	<!--<ul id='messages'>
 		<form action=''>
@@ -80,23 +81,25 @@
 		var socket = io();
 		var id = 0; 
 		$('form').submit(function(){
-			socket.emit('chat message', $('#m').val());
+			socket.emit('chat message', $('#searchBar').val());
 			
 			var post = new Object();
-			post.content = $("#m").val();
+			post.content = $("#searchBar").val();
 			post.type = "post";
 			post.id = id;
 			var jsonString = JSON.stringify(post);
 
 			socket.emit('addToDB', post);
 
-			$('#m').val('');
+			$('#searchBar').val('');
 			id++;
 			return false; 
 		});
 
 		socket.on('chat message', function(msg){
-			$("#messages").append($('<li class="post">').text(msg));
+			var str = msg;
+			$("#feed").prepend($('<div class="post" <div class="postContent" <p class="content"> test </p></div> <div class="voteButtons"> <button>Up</button> <button>Down</button></div></div>'))
+			//$("#feed").prepend($('<div class="post"> <div class="postContent" class="content">').text(msg)).append('<class="voteButtons"> <input type="button" value="Up"/> <input >type="button" value="Down"/>');
 		});
 
 		socket.on('getList', function(posts){
@@ -105,7 +108,7 @@
 			for(i = 0; i < posts.length; i++){
 				console.log(posts[i].content);
 				if(posts[i] != null){
-					$("#messages").append($('<li class="post">').text(posts[i].content));
+					$("#feed").prepend($('<div class="post postContent content">').text(posts[i].content)).append('<class="voteButtons"> <input type="button" value="Up"/> <input type="button" value="Down"/>');
 				}
 			}
 		});
@@ -115,7 +118,7 @@
 			var index = currentPosts.length; 
 			var i = 0; 
 			for(i = index; i < posts.length; i++){
-				$("#messages").append($('<li class="post">').text(posts[i].content));
+				$("#feed").prepend($('<div class="post postContent content">').text(posts[i].content)).append('<class="voteButtons"> <input type="button" value="Up"/> <input type="button" value="Down"/>');
 			}
 
 		});
