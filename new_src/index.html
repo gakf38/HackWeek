@@ -98,27 +98,17 @@
 
 		socket.on('chat message', function(msg){
 			var str = msg;
-			$("#feed").prepend($('<div class="post" <div class="postContent" <p class="content"> test </p></div> <div class="voteButtons"> <button>Up</button> <button>Down</button></div></div>'))
-			//$("#feed").prepend($('<div class="post"> <div class="postContent" class="content">').text(msg)).append('<class="voteButtons"> <input type="button" value="Up"/> <input >type="button" value="Down"/>');
-		});
+			$("#feed").prepend($('<div class="post"> <div class="postContent"> <p class="content">' + msg + '</p></div> <div class="voteButtons"> <button>Up</button> <button>Down</button></div></div>'));
+					});
 
-		socket.on('getList', function(posts){
-			var i = 0; 
-			console.log(posts.length);
-			for(i = 0; i < posts.length; i++){
-				console.log(posts[i].content);
-				if(posts[i] != null){
-					$("#feed").prepend($('<div class="post postContent content">').text(posts[i].content)).append('<class="voteButtons"> <input type="button" value="Up"/> <input type="button" value="Down"/>');
-				}
-			}
-		});
 
 		socket.on('showList', function(posts){
 			var currentPosts = document.getElementsByClassName("post");
 			var index = currentPosts.length; 
 			var i = 0; 
 			for(i = index; i < posts.length; i++){
-				$("#feed").prepend($('<div class="post postContent content">').text(posts[i].content)).append('<class="voteButtons"> <input type="button" value="Up"/> <input type="button" value="Down"/>');
+				var str = posts[i].content;
+				$("#feed").prepend($('<div class="post"> <div class="postContent"> <p class="content">' + str + '</p></div> <div class="voteButtons"> <button>Up</button> <button>Down</button></div></div>'));
 			}
 
 		});

@@ -33,9 +33,7 @@ io.on('connection', function(socket){
 		});
 	});
 
-	var greetMsg = 'A user has connected';
-	io.emit('chat message', greetMsg);
-	console.log("user connected");
+	
 
 	socket.on('chat message', function(msg){
 		if(msg.length == 0){
