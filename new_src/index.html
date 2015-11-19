@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title> Real-time Feed App </title>
+</head>
+
+<style>
+	body {
+		overflow: hidden;
+	}
+	#search {
+		width: 100%;
+	}
+	#searchBar {
+		width: 87%;
+		height: 30px;
+	}
+	#submitPost {
+		width: 12%;
+		height: 36px;
+	}
+	#feed {
+		overflow: auto;
+		margin-top: 25px;
+		border: 1px solid black;
+		width: 100%;
+		height: 525px;
+	}
+	/* Post div styling */
+	.post {
+		/*border: 1px solid black;*/
+		width: 100%;
+		height: 20px;
+		border-top: 1px solid black;
+		border-bottom: 1px solid black;
+	}
+	.postContent {
+		width: 85%;
+		height: 20px;
+		float: left;
+	}
+	.content {
+		margin: 0;
+		margin-left: 5px;
+	}
+	.voteButtons {
+		height: 20px;
+		width: 15%;
+		float: left;
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+
+	<div id="search">
+		<input id="searchBar" maxlength=120 type="text"/>
+		<button id="submitPost"> Post </button>
+	</div>
+	<div id="feed">
+		<!-- insert -->
+	</div>
+
+	<!--<ul id='messages'>
+		<form action=''>
+			<input id='m' autocomplete='off'/><button>Send</button>
+		</form>
+	</ul>
+
+	<ul id='testing'>
+	
+	</ul>-->
+
+	<script src='/socket.io/socket.io.js'></script>
+	<script src='http://code.jquery.com/jquery-1.11.1.js'></script>
+	<script>
+
+		var socket = io();
+		var id = 0; 
+		$('form').submit(function(){
+			socket.emit('chat message', $('#m').val());
+			
+			var post = new Object();
+			post.content = $("#m").val();
+			post.type = "post";
+			post.id = id;
+			var jsonString = JSON.stringify(post);
+
+			socket.emit('addToDB', post);
+
+			$('#m').val('');
+			id++;
+			return false; 
+		});
+
+		socket.on('chat message', function(msg){
+			$("#messages").append($('<li class="post">').text(msg));
+		});
+
+		socket.on('getList', function(posts){
+			var i = 0; 
+			console.log(posts.length);
+			for(i = 0; i < posts.length; i++){
+				console.log(posts[i].content);
+				if(posts[i] != null){
+					$("#messages").append($('<li class="post">').text(posts[i].content));
+				}
+			}
+		});
+
+		socket.on('showList', function(posts){
+			var currentPosts = document.getElementsByClassName("post");
+			var index = currentPosts.length; 
+			var i = 0; 
+			for(i = index; i < posts.length; i++){
+				$("#messages").append($('<li class="post">').text(posts[i].content));
+			}
+
+		});
+	</script>
+</body>
+</html>
