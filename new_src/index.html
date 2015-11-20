@@ -114,6 +114,18 @@
 
 		});
 
+		/*socket.on('updateList', function(posts){
+			var currentPosts = document.getElementsByClassName("content");
+			var i = 0; 
+			for(i = currentPosts.length-1; i >= 0; i--){
+				if(posts[i].content === currentPosts.innerHTML){
+					console.log("true");
+				}else{
+					currentPosts.innerHTML = posts[i].content; //?????
+				}
+			}
+		});*/
+
 		function up(id){
 			socket.emit('updateDBUP', id);
 		}
