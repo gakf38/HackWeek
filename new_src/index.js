@@ -68,11 +68,14 @@ io.on('connection', function(socket){
 			else
 				console.log("update");
 
+			/* --------------REMOVE THIS CODE BELOW--------------- */
 			var temp1, temp2, collection; 
 			collection = db.collection("posts");
 			temp1 = collection.find({"id":id});
 			temp2 = collection.find({"id":id++});
 			console.log(collection.find({"id":id}));
+			
+			/* -----------ADD THE CODE I UPLOADED HERE------------ */
 
 		});
 	});
