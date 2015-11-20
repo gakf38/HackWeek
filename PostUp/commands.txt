@@ -1,4 +1,4 @@
-var collections = db.collections('posts');
+var collections = db.collection('posts');
 
 var temp1 = collections.findOne({id:id});
 var temp2 = collections.findOne({id:(id+1)});
