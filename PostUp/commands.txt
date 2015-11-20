@@ -1,0 +1,21 @@
+var collections = db.collections('posts');
+
+var temp1 = collections.findOne({id:id});
+var temp2 = collections.findOne({id:(id+1)});
+
+var content1, content2;
+
+if(temp1)
+{
+	var postContent = temp1.content;
+	content1 = tojson(postContent);
+}
+
+if(temp2)
+{
+	var postContent = temp2.content;
+	content2 = tojson(postContent);
+}
+
+collections.update({id:id}, {$set {content:content2}});
+collections.update({id:(id+1)}, {$set {content:content1}});
